@@ -14,6 +14,7 @@ def get_datasets(names_only: bool = False):
         "texas": load_texas,
         "news": load_news,
         "adult_old": load_adult_old,
+        "mhr": load_mhr
     }
 
     if names_only:
@@ -755,6 +756,8 @@ def load_news(
         "shares",
     ]
 
+
+
     discrete_cols = []
 
     filtered_cols_list = [i for i in num_cols if  i !="shares" ] + cat_cols
@@ -774,6 +777,80 @@ def load_news(
     )
     metadata = get_metadata(df, cat_cols)
     return df, target, cat_cols, num_cols, metadata
+
+
+def load_mhr(
+    dataset_dir,
+    subset=None,
+    return_filtered_cols=False,
+    handle_discrete_as="categorial",
+    **kws,
+):
+    """Load Mental Health Risk Dataset
+
+    Args:
+        dataset_dir (str):
+            Directory to load dataset from.
+        subset (str, optional):
+            Subset of the dataset to load. Defaults to None.
+        return_filtered_cols (bool, optional):
+            Whether or not to return `filtered_cols_list`.
+            Defaults to False which returns all columns.
+        handle_discrete_as (str, optional):
+            Specifies a methodology to combine discrete columns if it exists.
+            Must be one of "numeric" or "categorial". Defaults to "categorial".
+
+    Raises:
+        NotImplementedError:
+            If `handle_discrete_as` not in ("numeric", "categorial")
+
+    Returns:
+        tuple: (df, target, cat_cols, num_cols, metadata)
+    """
+
+    if subset is not None:
+        assert subset in (
+            "train",
+            "test",
+            "demo",
+        ), "unrecognized subset. Must be one of (``train``, ``test``, ``demo``)"
+        dset_path = os.path.join(dataset_dir, f"mhr/{subset}.csv")
+    else:
+        dset_path = os.path.join(dataset_dir, "mhr/mhr.csv")
+    
+    cat_cols = [
+        "RiskLevel"
+    ]
+    
+    num_cols = ['Age', 'SystolicBP', 'DiastolicBP', 'BS', 'BodyTemp', 'HeartRate']
+    
+    discrete_cols = []
+
+    filtered_cols_list = [
+            'Age', 'SystolicBP', 'DiastolicBP', 'BS', 'BodyTemp', 'HeartRate'
+    ]
+    
+    target = "RiskLevel"
+
+    df = pd.read_csv(dset_path, sep=",", index_col=None, **kws)
+
+    df, cat_cols, num_cols = preprocess_dataframe(
+        dataframe=df,
+        cat_cols=cat_cols,
+        num_cols=num_cols,
+        discrete_cols=discrete_cols,
+        target=target,
+        filtered_cols_list=filtered_cols_list if return_filtered_cols else [],
+        handle_discrete_as=handle_discrete_as,
+    )
+
+    metadata = get_metadata(df, cat_cols)
+    return df, target, cat_cols, num_cols, metadata
+
+
+
+
+
 
 
 def load_adult_old(

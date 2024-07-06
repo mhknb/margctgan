@@ -26,6 +26,7 @@ def main():
 
     ## setup dataset class
     args.subset_size = None if args.subset_size == -1 else args.subset_size
+    
     dset = Dataset(
         dataset_name=args.dataset,
         dataset_dir=DATASET_DIR,
@@ -39,6 +40,7 @@ def main():
 
     args.sample_size = len(train_data) if args.sample_size == -1 else args.sample_size
     # args.batch_size = min(len(train_data), args.batch_size)
+    print("main step 1")
 
     if args.train:
         print("size of train dataset: %d" % train_data.shape[0])
@@ -143,6 +145,7 @@ def main():
 
 def check_args(args):
     ## set up save_dir
+    print("check_arguments")
     save_dir = os.path.join(
         os.path.dirname(__file__),
         "results",
@@ -169,6 +172,7 @@ def check_args(args):
 
 def parse_arguments():
     # fmt: off
+    print("2- parse_arguments")
     parser = argparse.ArgumentParser()
     parser.add_argument( "--exp_name", "-name", type=str, required=True, help="path for storing the checkpoint")
     parser.add_argument("--dataset", "-data", type=str, default="adult", help="dataset name")
@@ -191,4 +195,5 @@ def parse_arguments():
 
 
 if __name__ == "__main__":
+    print("1- main")
     main()

@@ -147,7 +147,7 @@ class DataTransformer(object):
         """Fit one hot encoder for discrete column."""
         raw_column_data = self.cast_as_string(raw_column_data)
 
-        ohe = OneHotEncoder(sparse=False, handle_unknown="ignore")
+        ohe = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
         ohe.fit(raw_column_data.reshape(-1, 1))
         num_categories = len(ohe.categories_[0])
 
