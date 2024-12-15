@@ -848,11 +848,6 @@ def load_mhr(
     return df, target, cat_cols, num_cols, metadata
 
 
-
-
-
-
-
 def load_adult_old(
     dataset_dir,
     subset=None,
