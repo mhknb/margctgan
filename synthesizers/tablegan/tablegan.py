@@ -186,7 +186,7 @@ def main():
         ###
 
         ### sample fake
-        fake_dir = f"{DATASET_DIR}/fake_samples/{args.dataset}/tablegan/{args.exp_name}/FS{args.sample_size}"
+        fake_dir = f"{DATASET_DIR}fake_samples/{args.dataset}/tablegan/{args.exp_name}/FS{args.sample_size}"
         mkdir(fake_dir)
 
         for i in range(args.eval_retries):
